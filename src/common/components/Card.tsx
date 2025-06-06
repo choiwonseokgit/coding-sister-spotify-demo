@@ -2,7 +2,7 @@ import { styled, Typography } from "@mui/material";
 import React from "react";
 import PlayButton from "./PlayButton";
 const CardContainer = styled("div")(({ theme }) => ({
-  minWidth: "160px",
+  //   minWidth: "100px",
   width: "100%",
   height: "100%",
   padding: "12px",
@@ -21,6 +21,7 @@ const AlbumImage = styled("img")({
   height: "auto",
   borderRadius: "8px",
   marginBottom: "8px",
+  //   aspectRatio: "1/1",
 });
 const EllipsisTypography = styled(Typography)({
   whiteSpace: "nowrap",
