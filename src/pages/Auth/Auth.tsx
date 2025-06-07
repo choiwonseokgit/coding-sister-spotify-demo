@@ -4,11 +4,10 @@ import useExchangeToken from "../../hooks/useExchangeToken";
 import { useNavigate } from "react-router";
 
 const Auth = () => {
-  const navigate = useNavigate();
   const urlParams = new URLSearchParams(window.location.search);
   let code = urlParams.get("code");
   const codeVerifier = localStorage.getItem("code_verifier");
-
+  const navigate = useNavigate();
   const { mutate: exchangeTokenMutate } = useExchangeToken();
 
   useEffect(() => {
