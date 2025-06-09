@@ -20,7 +20,7 @@ const Playlist = ({ playlists }: PlaylistProps) => {
       {playlists.map((item) => (
         <PlaylistItem
           selected={selectedId === item.id}
-          handleClick={handleItemClick}
+          onClick={handleItemClick}
           name={item.name || ""}
           image={(item.images && item.images[0]?.url) || null}
           id={item.id || ""}

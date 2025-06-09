@@ -30,7 +30,7 @@ interface PlaylistItemProps {
   name: string;
   artistName: string | null;
   id: string;
-  handleClick: (id: string) => void;
+  onClick: (id: string) => void;
   selected?: boolean;
 }
 
@@ -39,12 +39,12 @@ const PlaylistItem = ({
   name,
   artistName,
   id,
-  handleClick,
+  onClick,
   selected,
 }: PlaylistItemProps) => {
   return (
     <PlayListItemContainer
-      onClick={() => handleClick(id)}
+      onClick={() => onClick(id)}
       selected={selected || false}
     >
       <ListItemAvatar>
