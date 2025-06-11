@@ -1,8 +1,25 @@
 import { Navigate, useParams } from "react-router";
 import useGetPlaylist from "../../hooks/useGetPlaylist";
-import { Box, Grid, styled, Typography } from "@mui/material";
+import {
+  Box,
+  Grid,
+  styled,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+} from "@mui/material";
 import DefaultImage from "../../common/components/DefaultImage";
 import MusicNoteIcon from "@mui/icons-material/MusicNote";
+import useGetPlaylistItems from "../../hooks/useGetPlaylistItems";
+import DesktopPlaylistItem from "./components/DesktopPlaylistItem";
+import { PAGE_LIMIT } from "../../configs/commonConfig";
+import { useInView } from "react-intersection-observer";
+import { useEffect } from "react";
+import LoadingSpinner from "../../common/components/LoadingSpinner";
 
 const PlaylistHeader = styled(Grid)({
   display: "flex",
@@ -38,55 +55,122 @@ const ResponsiveTypography = styled(Typography)(({ theme }) => ({
     fontSize: "1rem",
   },
 }));
+const StyledTableContainer = styled(TableContainer)(({ theme }) => ({
+  background: theme.palette.background.paper,
+  color: theme.palette.common.white,
+  height: "calc(100% - 64px)",
+  borderRadius: "8px",
+  overflowY: "auto",
+  "&::-webkit-scrollbar": {
+    display: "none",
+  },
+  msOverflowStyle: "none", // IE and Edge
+  scrollbarWidth: "none", // Firefox
+}));
 
 const PlaylistDetailPage = () => {
   const { id } = useParams();
-  if (id === undefined) return <Navigate to="/" />;
+  if (!id) return <Navigate to="/" />;
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const { data: playList } = useGetPlaylist({ playlist_id: id });
+
+  const {
+    data: playlistItems,
+    isLoading,
+    error,
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+  } = useGetPlaylistItems({
+    playlist_id: id,
+    limit: PAGE_LIMIT,
+  });
+
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const [ref, inView] = useInView();
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  useEffect(() => {
+    if (inView && hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  }, [inView]);
 
   console.log(playList);
 
   return (
-    <PlaylistHeader container spacing={7}>
-      <ImageGrid item sm={12} md={2}>
-        {playList?.images ? (
-          <AlbumImage src={playList?.images[0].url} alt="playList_cover.jpg" />
-        ) : (
-          <DefaultImage>
-            <MusicNoteIcon fontSize="large" />
-          </DefaultImage>
-        )}
-      </ImageGrid>
-      <Grid item sm={12} md={10}>
-        <Box>
-          <ResponsiveTypography variant="h1" color="white">
-            {playList?.name}
-          </ResponsiveTypography>
-
-          <Box display="flex" alignItems="center">
-            <img
-              src="https://i.scdn.co/image/ab67757000003b8255c25988a6ac314394d3fbf5"
-              width="20px"
-              alt="spotify-logo"
+    <StyledTableContainer>
+      <PlaylistHeader container spacing={7}>
+        <ImageGrid size={{ sm: 12, md: 2 }}>
+          {playList?.images ? (
+            <AlbumImage
+              src={playList?.images[0].url}
+              alt="playList_cover.jpg"
             />
-            <Typography
-              variant="subtitle1"
-              color="white"
-              ml={1}
-              fontWeight={700}
-            >
-              {playList?.owner?.display_name
-                ? playList?.owner.display_name
-                : "unknown"}
-            </Typography>
-            <Typography variant="subtitle1" color="white">
-              • {playList?.tracks?.total} songs
-            </Typography>
+          ) : (
+            <DefaultImage>
+              <MusicNoteIcon fontSize="large" />
+            </DefaultImage>
+          )}
+        </ImageGrid>
+        <Grid size={{ sm: 12, md: 10 }}>
+          <Box>
+            <ResponsiveTypography variant="h1" color="white">
+              {playList?.name}
+            </ResponsiveTypography>
+
+            <Box display="flex" alignItems="center">
+              <img
+                src="https://i.scdn.co/image/ab67757000003b8255c25988a6ac314394d3fbf5"
+                width="20px"
+                alt="spotify-logo"
+              />
+              <Typography
+                variant="subtitle1"
+                color="white"
+                ml={1}
+                fontWeight={700}
+              >
+                {playList?.owner?.display_name
+                  ? playList?.owner.display_name
+                  : "unknown"}
+              </Typography>
+              <Typography variant="subtitle1" color="white">
+                • {playList?.tracks?.total} songs
+              </Typography>
+            </Box>
           </Box>
-        </Box>
-      </Grid>
-    </PlaylistHeader>
+        </Grid>
+      </PlaylistHeader>
+      {playList?.tracks?.total === 0 ? (
+        <Typography>search</Typography>
+      ) : (
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>#</TableCell>
+              <TableCell>Title</TableCell>
+              <TableCell>Album</TableCell>
+              <TableCell>Date added</TableCell>
+              <TableCell>Duration</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {playlistItems?.pages.map((page, pageIdx) =>
+              page.items.map((item, itemIdx) => (
+                <DesktopPlaylistItem
+                  item={item}
+                  key={pageIdx * PAGE_LIMIT + itemIdx + 1}
+                  idx={pageIdx * PAGE_LIMIT + itemIdx + 1}
+                />
+              ))
+            )}
+            <TableRow sx={{ height: "5px" }} ref={ref} />
+            {isFetchingNextPage && <LoadingSpinner />}
+          </TableBody>
+        </Table>
+      )}
+    </StyledTableContainer>
   );
 };
 

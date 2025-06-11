@@ -1,7 +1,14 @@
 import { SimplifiedAlbum } from "./album";
 import { ApiResponse } from "./apiResponse";
 import { Artist } from "./artist";
-import { ExternalUrls, Followers, Image, Owner } from "./commonTypes";
+import {
+  ExternalUrls,
+  Followers,
+  Image,
+  Owner,
+  Restrictions,
+} from "./commonTypes";
+import { Episode, Track } from "./track";
 
 export interface GetCurrentUserPlaylistRequest {
   limit?: number;
@@ -39,10 +46,17 @@ export interface GetPlaylistRequest {
   additional_types?: string;
 }
 
+export interface GetPlaylistItemsRequest extends GetPlaylistRequest {
+  offset?: number;
+  limit?: number;
+}
+
 export interface Playlist extends BasePlaylist {
   tracks: ApiResponse<PlaylistTrack>;
   followers: Followers;
 }
+
+export type GetPlaylistItemsResponse = ApiResponse<PlaylistTrack>;
 
 export interface PlaylistTrack {
   added_at?: string | null;
@@ -58,81 +72,77 @@ export interface PlaylistTrack {
   track: Track | Episode;
 }
 
-export interface Track {
-  album: SimplifiedAlbum;
-  artist: Artist;
-  available_markets: string[];
-  disc_number: number;
-  duration_ms: number;
-  explicit: boolean;
-  external_ids: {
-    isrc: string;
-    ean: string;
-    upc: string;
-  };
-  external_url: ExternalUrls;
-  href: string;
-  id: string;
-  is_playable: boolean;
-  linked_from: {};
-  restriction: {
-    reason: string;
-  };
-  name: string;
-  popularity: string;
-  preview_url: string | null;
-  track_number: number;
-  type: "track";
-  uri: string;
-  is_local: string;
-}
+// export interface Track {
+//   album: SimplifiedAlbum;
+//   artist: Artist;
+//   available_markets: string[];
+//   disc_number: number;
+//   duration_ms: number;
+//   explicit: boolean;
+//   external_ids: {
+//     isrc: string;
+//     ean: string;
+//     upc: string;
+//   };
+//   external_url: ExternalUrls;
+//   href: string;
+//   id: string;
+//   is_playable: boolean;
+//   linked_from: {};
+//   restriction: {
+//     reason: string;
+//   };
+//   name: string;
+//   popularity: string;
+//   preview_url: string | null;
+//   track_number: number;
+//   type: "track";
+//   uri: string;
+//   is_local: string;
+// }
 
-export interface Episode {
-  audio_preview_url: string | null;
+// export interface Episode {
+//   description: string;
+//   html_description: string;
+//   explicit: boolean;
+//   external_urls: ExternalUrls;
+//   href: string;
+//   id: string;
+//   images: Image[];
+//   is_externally_hosted: boolean;
+//   is_playable: boolean;
+//   name: string;
+//   release_date: string;
+//   release_date_precision: string;
+//   type: "eposode";
+//   uri: string;
+//   resume_point: {
+//     fully_played?: boolean;
+//     resume_position_ms?: number;
+//   };
+//   restriction: Restrictions;
+//   show: Show;
+// }
+
+export interface Show {
+  available_markets: string[];
+  copyrights: {
+    text: string;
+    type: string;
+  };
   description: string;
+  explicit: boolean;
   html_description: string;
-  duration_ms: number;
-  explicit: number;
-  external_url: ExternalUrls;
+  external_urls: string;
   href: string;
   id: string;
   images: Image[];
   is_externally_hosted: boolean;
-  is_playable: boolean;
-  language: string;
-  languages: string[];
+  language: string[];
+  media_type: string;
   name: string;
-  release_date: string;
-  release_date_precision: string;
-  resume_point: {
-    fully_played: boolean;
-    resume_position_ms: number;
-  };
-  type: string;
+  publisher: string;
+  type: "show";
   uri: string;
-  restriction: {
-    reason: string;
-  };
-  show: {
-    available_markets: string[];
-    copyrights: {
-      text: string;
-      type: string;
-    };
-    description: string;
-    html_description: string;
-    explicit: boolean;
-    external_urls: ExternalUrls;
-    href: string;
-    id: string;
-    images: Image[];
-    is_externally_hosted: boolean;
-    languages: string[];
-    media_type: string;
-    name: string;
-    publisher: string;
-    type: string;
-    uri: string;
-    total_episodes: number;
-  };
+  total_episode: number;
 }
