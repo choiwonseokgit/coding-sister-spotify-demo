@@ -24,6 +24,7 @@ const AlbumImage = styled("img")(({ theme }) => ({
   minWidth: "128px",
   height: "20vh",
   width: "20vh",
+  objectFit: "cover",
 
   [theme.breakpoints.down("md")]: {
     maxWidth: "200px",
