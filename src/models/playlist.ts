@@ -146,3 +146,10 @@ export interface Show {
   uri: string;
   total_episode: number;
 }
+
+export interface CreatePlaylistRequest {
+  name: string;
+  playlistPublic?: boolean;
+  collaborative?: boolean;
+  description?: string;
+}
