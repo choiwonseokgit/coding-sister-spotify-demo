@@ -30,3 +30,8 @@ export interface Owner {
   type?: string;
   uri?: string;
 }
+
+export interface Copyrights {
+  text: string;
+  type: string; // 'C' | 'P'
+}
