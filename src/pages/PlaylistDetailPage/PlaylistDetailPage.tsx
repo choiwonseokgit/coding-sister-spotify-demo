@@ -108,7 +108,7 @@ const PlaylistDetailPage = () => {
   if (error || playlistError) {
     console.log(error);
 
-    if (error?.error.status === 401 || playlistError?.error.status === 401) {
+    if (error?.status === 401 || playlistError?.status === 401) {
       //로그인을 안해서 권한 없음 에러라면 로그인 버튼
       return (
         <Box
