@@ -75,7 +75,11 @@ const PlaylistDetailPage = () => {
   const { id } = useParams();
   if (!id) return <Navigate to="/" />;
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { data: playList } = useGetPlaylist({ playlist_id: id });
+  const { data: playList, error: playlistError } = useGetPlaylist({
+    playlist_id: id,
+  });
+
+  console.log(playlistError);
 
   const {
     data: playlistItems,
@@ -99,8 +103,12 @@ const PlaylistDetailPage = () => {
     }
   }, [inView]);
 
-  if (error) {
-    if (error?.error.status === 401) {
+  console.log("err", error);
+
+  if (error || playlistError) {
+    console.log(error);
+
+    if (error?.error.status === 401 || playlistError?.error.status === 401) {
       //로그인을 안해서 권한 없음 에러라면 로그인 버튼
       return (
         <Box

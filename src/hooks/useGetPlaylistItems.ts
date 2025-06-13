@@ -17,6 +17,7 @@ const useGetPlaylistItems = (params: GetPlaylistItemsRequest) => {
       }
       return undefined;
     },
+    retry: false,
   });
 };
 

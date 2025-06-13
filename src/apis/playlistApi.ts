@@ -34,7 +34,8 @@ export const getPlaylist = async (
 
     return response.data;
   } catch (err) {
-    throw new Error("fail to fetch playlist detail");
+    // throw new Error("fail to fetch playlist detail");
+    throw err;
   }
 };
 
@@ -48,7 +49,8 @@ export const getPlaylistItems = async (
 
     return response.data;
   } catch (err) {
-    throw new Error("fail to fetch playlist items");
+    // throw new Error("fail to fetch playlist items");
+    throw err;
   }
 };
 
