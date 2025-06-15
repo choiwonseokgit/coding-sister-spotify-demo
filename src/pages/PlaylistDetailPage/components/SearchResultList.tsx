@@ -12,6 +12,9 @@ import {
 } from "@mui/material";
 import { useEffect } from "react";
 import LoadingSpinner from "../../../common/components/LoadingSpinner";
+import { useParams } from "react-router";
+import { addItemToPlaylist } from "../../../apis/playlistApi";
+import useAddItemToPlaylist from "../../../hooks/useAddItemToPlaylist";
 const StyledTableContainer = styled(TableContainer)(({ theme }) => ({
   background: theme.palette.background.paper,
   color: theme.palette.common.white,
@@ -43,7 +46,17 @@ const SearchResultList = ({
   isFetchingNextPage,
   fetchNextPage,
 }: SearchResultListProps) => {
+  const { id: playlist_id } = useParams();
+  const { mutate: addItemToPlaylistMutate } = useAddItemToPlaylist();
+
+  console.log("playlist_id", playlist_id);
   const [ref, inView] = useInView(); // 무한스크롤 옵저버 추가
+
+  const handleAddButtonClick = (trackId: string) => {
+    if (playlist_id) {
+      addItemToPlaylistMutate({ playlist_id, track_id: trackId });
+    }
+  };
 
   useEffect(() => {
     // fetchNextPage 호출 추가
@@ -51,6 +64,8 @@ const SearchResultList = ({
       fetchNextPage();
     }
   }, [inView, hasNextPage, isFetchingNextPage]);
+
+  console.log(list);
 
   return (
     <StyledTableContainer>
@@ -72,13 +87,13 @@ const SearchResultList = ({
             </TableCell>
             <TableCell>{track.album?.name}</TableCell>
             <TableCell>
-              <Button>Add</Button>
+              <Button onClick={() => handleAddButtonClick(track.id)}>
+                Add
+              </Button>
             </TableCell>
           </StyledTableRow>
         ))}
         <div ref={ref} style={{ height: 1 }}>
-          {" "}
-          // 무한스크롤 영역 추가
           {isFetchingNextPage && <LoadingSpinner />}
         </div>
       </TableBody>

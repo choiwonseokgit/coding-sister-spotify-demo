@@ -20,7 +20,7 @@ const useSearchItemsByKeyword = (params: SearchRequestParams) => {
     getNextPageParam: (lastPage) => {
       const nextPageUrl =
         lastPage.tracks?.next ||
-        lastPage.artist?.next ||
+        lastPage.artists?.next ||
         lastPage.albums?.next ||
         lastPage.playlists?.next ||
         lastPage.shows?.next ||

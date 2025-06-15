@@ -180,3 +180,10 @@ export interface SimplifiedAudiobook {
   uri: string;
   total_chapters: number;
 }
+
+export interface AddItemToPlaylistRequest {
+  playlist_id: string;
+  track_id: string;
+  position?: number;
+  uris?: string;
+}

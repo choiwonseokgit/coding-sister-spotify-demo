@@ -19,6 +19,9 @@ const useCreatePlaylist = () => {
       queryClient.invalidateQueries({
         queryKey: ["current-user-playlists"],
       });
+      queryClient.invalidateQueries({
+        queryKey: ["search"],
+      });
     },
   });
 };
