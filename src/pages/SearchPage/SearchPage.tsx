@@ -12,6 +12,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { getCategories } from "../../apis/categoryApi";
 import useGetCategories from "../../hooks/useGetCategories";
 import CategoryCard from "./components/CategoryCard";
+import LoadingSpinner from "../../common/components/LoadingSpinner";
 
 const BG_COLORS = [
   "#FF6B6B", // 빨강
@@ -69,13 +70,13 @@ const SearchPage = () => {
   //   type: [SEARCH_TYPE.Track],
   // });
 
-  const { data: categories } = useGetCategories();
-
-  console.log(categories);
+  const { data: categories, isPending } = useGetCategories();
 
   const handleSearchKeyword = (event: React.ChangeEvent<HTMLInputElement>) => {
     setKeyword(event.target.value);
   };
+
+  if (isPending) return <LoadingSpinner />;
 
   return (
     <Container>
