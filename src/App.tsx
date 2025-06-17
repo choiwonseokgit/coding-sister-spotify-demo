@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect } from "react";
+import React, { Suspense } from "react";
 import "./App.css";
 import { Route, Routes } from "react-router";
 import SearchWithKeywordPage from "./pages/SearchWithKeywordPage/SearchWithKeywordPage";
@@ -9,6 +9,7 @@ import Auth from "./pages/Auth/Auth";
 const AppLayout = React.lazy(() => import("./layout/AppLayout"));
 const HomePage = React.lazy(() => import("./pages/HomePage/HomePage"));
 const SearchPage = React.lazy(() => import("./pages/SearchPage/SearchPage"));
+const SearchLayout = React.lazy(() => import("./layout/SearchLayout"));
 
 function App() {
   return (
@@ -16,8 +17,10 @@ function App() {
       <Routes>
         <Route path="/" element={<AppLayout />}>
           <Route index element={<HomePage />} />
-          <Route path="search" element={<SearchPage />} />
-          <Route path="search/:keyword" element={<SearchWithKeywordPage />} />
+          <Route path="search" element={<SearchLayout />}>
+            <Route index element={<SearchPage />} />
+            <Route path=":keyword" element={<SearchWithKeywordPage />} />
+          </Route>
           <Route path="playlist/:id" element={<PlaylistDetailPage />} />
           <Route path="callback" element={<Auth />} />
         </Route>
