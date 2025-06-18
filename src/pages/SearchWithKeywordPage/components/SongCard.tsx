@@ -7,6 +7,7 @@ import IconButton from "@mui/material/IconButton";
 import AddIcon from "@mui/icons-material/Add";
 import { useState } from "react";
 import AlbumListPopup from "./AlbumListPopup";
+import useGetCurrentUserProfile from "../../../hooks/useGetCurrentUserProfile";
 
 interface SongCardProps {
   song: Track;
@@ -78,8 +79,7 @@ const AddButton = styled(IconButton)({
 });
 
 const SongCard = ({ song }: SongCardProps) => {
-  const isLogin = !!localStorage.getItem("access_token");
-
+  const { data: user } = useGetCurrentUserProfile();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const handleAddClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -96,7 +96,7 @@ const SongCard = ({ song }: SongCardProps) => {
         <SongTitle>{song.name}</SongTitle>
         <ArtistName>{song.artists[0].name}</ArtistName>
       </InfoContainer>
-      {isLogin && (
+      {user && (
         <AddButton className="add-button" onClick={handleAddClick}>
           <AddIcon />
         </AddButton>
