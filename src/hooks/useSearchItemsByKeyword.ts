@@ -34,6 +34,7 @@ const useSearchItemsByKeyword = (params: SearchRequestParams) => {
 
       return undefined;
     },
+    enabled: !!clientCredentialToken,
   });
 };
 
