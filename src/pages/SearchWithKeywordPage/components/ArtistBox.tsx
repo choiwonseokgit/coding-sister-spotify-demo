@@ -18,7 +18,9 @@ const ArtistBox = ({ artists }: ArtistBoxProps) => {
       <Box display="flex" gap={1}>
         {isNoResult && <Typography>검색 결과가 없습니다.</Typography>}
         {isNoResult ||
-          artists.slice(0, 6).map((artist) => <ArtistCard artist={artist} />)}
+          artists
+            .slice(0, 6)
+            .map((artist) => <ArtistCard artist={artist} key={artist.name} />)}
       </Box>
     </Box>
   );

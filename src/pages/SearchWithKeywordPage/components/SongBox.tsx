@@ -7,8 +7,6 @@ interface SongBoxProps {
 }
 
 const SongBox = ({ songs }: SongBoxProps) => {
-  if (!songs || songs.length === 0) return <div>검색 결과가 없습니다.</div>;
-
   const isNoResult = !songs || songs.length === 0;
 
   return (
@@ -19,7 +17,9 @@ const SongBox = ({ songs }: SongBoxProps) => {
       <Box>
         {isNoResult && <Typography>검색 결과가 없습니다.</Typography>}
         {isNoResult ||
-          songs.slice(0, 4).map((song) => <SongCard song={song} />)}
+          songs
+            .slice(0, 4)
+            .map((song) => <SongCard song={song} key={song.name} />)}
       </Box>
     </Box>
   );

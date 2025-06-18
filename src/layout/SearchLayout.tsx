@@ -42,11 +42,6 @@ const SearchLayout = () => {
     navigate(`/search/${encodeURIComponent(newKeyword)}`);
   };
 
-  //   // URL이 바뀌면 keyword도 반영되도록
-  //   useEffect(() => {
-  //     setKeyword(paramKeyword || "");
-  //   }, [paramKeyword]);
-
   return (
     <Container>
       <StyledTextField

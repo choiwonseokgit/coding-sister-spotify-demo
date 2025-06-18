@@ -17,7 +17,9 @@ const AlbumBox = ({ albums }: AlbumBoxProps) => {
       <Box display="flex" gap={1}>
         {isNoResult && <Typography>검색 결과가 없습니다.</Typography>}
         {isNoResult ||
-          albums.slice(0, 6).map((album) => <AlbumCard album={album} />)}
+          albums
+            .slice(0, 6)
+            .map((album) => <AlbumCard album={album} key={album.name} />)}
       </Box>
     </Box>
   );

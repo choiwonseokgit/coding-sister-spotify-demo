@@ -1,7 +1,7 @@
 import { useParams } from "react-router";
 import useSearchItemsByKeyword from "../../hooks/useSearchItemsByKeyword";
 import { SEARCH_TYPE } from "../../models/search";
-import { Box, styled } from "@mui/material";
+import { Box } from "@mui/material";
 import SongBox from "./components/SongBox";
 import ArtistBox from "./components/ArtistBox";
 import AlbumBox from "./components/AlbumBox";
