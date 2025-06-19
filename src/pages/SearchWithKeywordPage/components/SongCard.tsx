@@ -79,7 +79,6 @@ const AddButton = styled(IconButton)({
 });
 
 const SongCard = ({ song }: SongCardProps) => {
-  const { data: user } = useGetCurrentUserProfile();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const handleAddClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -96,11 +95,9 @@ const SongCard = ({ song }: SongCardProps) => {
         <SongTitle>{song.name}</SongTitle>
         <ArtistName>{song.artists[0].name}</ArtistName>
       </InfoContainer>
-      {user && (
-        <AddButton className="add-button" onClick={handleAddClick}>
-          <AddIcon />
-        </AddButton>
-      )}
+      <AddButton className="add-button" onClick={handleAddClick}>
+        <AddIcon />
+      </AddButton>
       <DurationText>{format(new Date(song.duration_ms), "mm:ss")}</DurationText>
       <AlbumListPopup
         anchorEl={anchorEl}
