@@ -11,22 +11,38 @@ const Container = styled("div")({
 });
 
 const StyledTextField = styled(TextField)(({ theme }) => ({
-  width: "30%",
+  width: "100%", // 기본값 (모바일)
+
+  [theme.breakpoints.up("sm")]: {
+    width: "70%",
+  },
+
+  [theme.breakpoints.up("md")]: {
+    width: "50%",
+  },
+
+  [theme.breakpoints.up("lg")]: {
+    width: "40%",
+  },
+
+  [theme.breakpoints.up("xl")]: {
+    width: "30%",
+  },
 
   "& .MuiInputBase-root": {
-    borderRadius: "100px", // 입력 필드의 둥근 모서리
-    backgroundColor: theme.palette.action.active, // 입력 필드의 배경 색상
-    color: "white", // 텍스트 색상
+    borderRadius: "100px",
+    backgroundColor: theme.palette.action.active,
+    color: "white",
   },
   "& .MuiOutlinedInput-root": {
     "& fieldset": {
-      borderColor: "transparent", // 테두리 색상 제거
+      borderColor: "transparent",
     },
     "&:hover fieldset": {
-      borderColor: "gray", // 마우스 호버 시 테두리 색상
+      borderColor: "gray",
     },
     "&.Mui-focused fieldset": {
-      borderColor: "gray", // 포커스 시 테두리 색상
+      borderColor: "gray",
     },
   },
 }));

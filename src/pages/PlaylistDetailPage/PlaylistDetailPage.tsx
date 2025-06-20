@@ -11,6 +11,8 @@ import {
   TableHead,
   TableRow,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import DefaultImage from "../../common/components/DefaultImage";
 import MusicNoteIcon from "@mui/icons-material/MusicNote";
@@ -23,6 +25,7 @@ import LoadingSpinner from "../../common/components/LoadingSpinner";
 import LoginButton from "../../common/components/LoginButton";
 import ErrorMessage from "../../common/components/ErrorMessage";
 import EmptyPlaylistWithSearch from "./components/EmptyPlaylistWithSearch";
+import MobilePlaylistItem from "./components/MobilePlaylistItem";
 
 const PlaylistHeader = styled(Grid)({
   display: "flex",
@@ -73,6 +76,8 @@ const StyledTableContainer = styled(TableContainer)(({ theme }) => ({
 
 const PlaylistDetailPage = () => {
   const { id } = useParams();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   if (!id) return <Navigate to="/" />;
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const { data: playList, error: playlistError } = useGetPlaylist({
@@ -174,7 +179,22 @@ const PlaylistDetailPage = () => {
       </PlaylistHeader>
       {playList?.tracks?.total === 0 ? (
         <EmptyPlaylistWithSearch />
+      ) : isMobile ? (
+        // ✅ 모바일 카드형 리스트 렌더링
+        <Box>
+          {playlistItems?.pages.map((page, pageIdx) =>
+            page.items.map((item, itemIdx) => (
+              <MobilePlaylistItem
+                item={item}
+                key={pageIdx * PAGE_LIMIT + itemIdx + 1}
+              />
+            ))
+          )}
+          <Box ref={ref} height="5px" />
+          {isFetchingNextPage && <LoadingSpinner />}
+        </Box>
       ) : (
+        // ✅ 데스크탑 테이블 그대로
         <Table>
           <TableHead>
             <TableRow>

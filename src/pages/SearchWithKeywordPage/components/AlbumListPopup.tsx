@@ -6,13 +6,12 @@ import {
   Menu,
   Typography,
 } from "@mui/material";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import useGetCurrentUserPlaylists from "../../../hooks/useGetCurrentUserPlaylists";
 import { useInView } from "react-intersection-observer";
 import LoadingSpinner from "../../../common/components/LoadingSpinner";
 import useAddItemToPlaylist from "../../../hooks/useAddItemToPlaylist";
 import useGetCurrentUserProfile from "../../../hooks/useGetCurrentUserProfile";
-import LoginButton from "../../../common/components/LoginButton";
 
 interface AlbumListPopupProps {
   anchorEl: HTMLElement | null;

@@ -5,6 +5,8 @@ import SearchIcon from "@mui/icons-material/Search";
 import LibraryHead from "./components/LibraryHead";
 import Library from "./components/Library";
 import Navbar from "./components/Navbar";
+import { Toaster } from "react-hot-toast";
+import MobileNavbar from "./components/MobileNavBar";
 
 const Layout = styled("div")({
   display: "flex",
@@ -58,6 +60,7 @@ const StyledNavLink = styled(NavLink)(({ theme }) => ({
 const AppLayout = () => {
   return (
     <Layout>
+      <Toaster position="bottom-center" />
       <Sidebar>
         <ContentBox>
           <NavList>
@@ -83,6 +86,7 @@ const AppLayout = () => {
       <ContentBox>
         <Navbar />
         <Outlet />
+        <MobileNavbar />
       </ContentBox>
     </Layout>
   );

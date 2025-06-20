@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addItemToPlaylist } from "../apis/playlistApi";
 import { AddItemToPlaylistRequest } from "../models/playlist";
+import toast from "react-hot-toast";
 
 const useAddItemToPlaylist = () => {
   const queryClient = useQueryClient();
@@ -17,6 +18,7 @@ const useAddItemToPlaylist = () => {
       queryClient.invalidateQueries({
         queryKey: ["playlist-items"],
       });
+      toast.success("플레이리스트에 추가되었습니다.");
     },
   });
 };

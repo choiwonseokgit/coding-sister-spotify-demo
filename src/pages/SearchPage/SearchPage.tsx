@@ -28,9 +28,16 @@ const SearchPage = () => {
       </Typography>
       <Box
         display="grid"
-        gridTemplateColumns="repeat(3, 1fr)"
         gap={1}
-        sx={{ width: "100%", maxWidth: "100%" }}
+        sx={{
+          width: "100%",
+          maxWidth: "100%",
+          gridTemplateColumns: {
+            xs: "1fr", // 모바일: 한 줄에 하나
+            sm: "1fr 1fr", // 태블릿: 두 개
+            md: "1fr 1fr 1fr", // 데스크탑: 세 개
+          },
+        }}
       >
         {categories?.categories.items.map((item, idx) => (
           <CategoryCard
